@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 6 - Event Handling</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      window.onload = function () {
+        // 1. Change background color based on radio button selection
+        const radioButtons = document.getElementsByName("color");
+        radioButtons.forEach((button) => {
+          button.addEventListener("change", changeBackgroundColor);
+        });
+
+        // 2. Display message based on button click
+        document
+          .getElementById("shoot-movies")
+          .addEventListener("click", () => showMessage("Shooting movies!"));
+        document
+          .getElementById("shoot-guns")
+          .addEventListener("click", () => showMessage("Shooting guns!"));
+        document
+          .getElementById("shoot-basketballs")
+          .addEventListener("click", () =>
+            showMessage("Shooting basketballs!")
+          );
+
+        // 3. Check for empty name and address fields
+        document.getElementById("name").addEventListener("blur", validateField);
+        document
+          .getElementById("address")
+          .addEventListener("blur", validateField);
+      };
+
+      function changeBackgroundColor() {
+        // Get selected colors
+        const selectedColors = document.querySelectorAll(
+          'input[name="color"]:checked'
+        );
+
+        // Set the body background to white if no colors are selected
+        if (selectedColors.length === 0) {
+          document.body.style.backgroundColor = "white";
+        } else {
+          // Merge the colors for multiple selections
+          let mergedColor = "";
+          selectedColors.forEach((color) => {
+            mergedColor += color.id + " ";
+          });
+
+          document.body.style.backgroundColor = mergedColor.trim();
+        }
+
+        // Animate color blocks
+        animateColorBlocks(selectedColors);
+      }
+
+      function animateColorBlocks(selectedColors) {
+        // Hide all blocks first
+        const colorBlocks = document.querySelectorAll(".color-block");
+        colorBlocks.forEach((block) => {
+          block.classList.remove("animate-block");
+        });
+
+        // Add animation to the selected blocks
+        selectedColors.forEach((color) => {
+          const colorBlock = document.getElementById(`${color.id}-block`);
+          colorBlock.classList.add("animate-block");
+        });
+      }
+
+      function showMessage(message) {
+        alert(message);
+      }
+
+      function validateField(event) {
+        const field = event.target;
+        if (!field.value) {
+          alert(`Please enter your ${field.id}.`);
+          field.focus();
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Experiment 6 - Event Handling</h1>
+
+      <section>
+        <h2>Change Background Color</h2>
+        <label> <input type="radio" name="color" id="red" /> Red </label>
+        <label> <input type="radio" name="color" id="green" /> Green </label>
+        <label> <input type="radio" name="color" id="blue" /> Blue </label>
+
+        <!-- Animated Color Blocks -->
+        <div id="red-block" class="color-block red"></div>
+        <div id="green-block" class="color-block green"></div>
+        <div id="blue-block" class="color-block blue"></div>
+      </section>
+
+      <section>
+        <h2>Shoot Something</h2>
+        <button id="shoot-movies">Shoot Movies</button>
+        <button id="shoot-guns">Shoot Guns</button>
+        <button id="shoot-basketballs">Shoot Basketballs</button>
+      </section>
+
+      <section>
+        <h2>Validate Name and Address</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" required />
+        <label for="address">Address:</label>
+        <input type="text" id="address" required />
+      </section>
+    </div>
+  </body>
+</html>

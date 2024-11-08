@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 3</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 style="text-align: center">Experiment 3</h1>
+
+    <section>
+      <h1>Remove Character at Specified Position</h1>
+      <label for="remove-string">Enter a string:</label>
+      <input type="text" id="remove-string" />
+      <label for="remove-position">Enter position:</label>
+      <input type="number" id="remove-position" />
+      <button onclick="removeCharacter()">Remove Character</button>
+      <p id="remove-result"></p>
+
+      <script>
+        function removeCharacter() {
+          let str = document.getElementById("remove-string").value;
+          let position = parseInt(
+            document.getElementById("remove-position").value
+          );
+          let newStr = str.slice(0, position) + str.slice(position + 1);
+          document.getElementById(
+            "remove-result"
+          ).innerText = `New string: ${newStr}`;
+        }
+      </script>
+    </section>
+
+    <section>
+      <h1>New String with First 3 Characters in Lower Case</h1>
+      <label for="lowercase-string">Enter a string:</label>
+      <input type="text" id="lowercase-string" />
+      <button onclick="createNewString()">Create New String</button>
+      <p id="lowercase-result"></p>
+
+      <script>
+        function createNewString() {
+          let str = document.getElementById("lowercase-string").value;
+          let newStr;
+          if (str.length < 3) {
+            newStr = str.toUpperCase();
+          } else {
+            newStr = str.slice(0, 3).toLowerCase() + str.slice(3);
+          }
+          document.getElementById(
+            "lowercase-result"
+          ).innerText = `New string: ${newStr}`;
+        }
+      </script>
+    </section>
+
+    <section>
+      <h1>Convert Upper Case to Lower Case and Vice Versa</h1>
+      <label for="convert-case-string">Enter a string:</label>
+      <input type="text" id="convert-case-string" />
+      <button onclick="convertCase()">Convert Case</button>
+      <p id="convert-case-result"></p>
+
+      <script>
+        function convertCase() {
+          let str = document.getElementById("convert-case-string").value;
+          let newStr = "";
+          for (let char of str) {
+            if (char === char.toUpperCase()) {
+              newStr += char.toLowerCase();
+            } else {
+              newStr += char.toUpperCase();
+            }
+          }
+          document.getElementById(
+            "convert-case-result"
+          ).innerText = `Converted string: ${newStr}`;
+        }
+      </script>
+    </section>
+
+    <section>
+      <h1>Count Occurrence of a Substring</h1>
+      <label for="main-string">Enter main string:</label>
+      <input type="text" id="main-string" />
+      <label for="substring">Enter substring:</label>
+      <input type="text" id="substring" />
+      <button onclick="countSubstring()">Count Substring</button>
+      <p id="substring-result"></p>
+
+      <script>
+        function countSubstring() {
+          let mainStr = document.getElementById("main-string").value;
+          let subStr = document.getElementById("substring").value;
+          let count = mainStr.split(subStr).length - 1;
+          document.getElementById(
+            "substring-result"
+          ).innerText = `Occurrences of '${subStr}': ${count}`;
+        }
+      </script>
+    </section>
+  </body>
+</html>

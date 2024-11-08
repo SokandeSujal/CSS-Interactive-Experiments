@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 5</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Experiment 5</h1>
+
+      <section>
+        <h2>1. Subclassing Employee: Salesman and Manager</h2>
+        <button onclick="displayEmployeeData()">Display Employee Data</button>
+        <p id="employeeData"></p>
+      </section>
+
+      <section>
+        <h2>2. Adding Salary and setRaise() method</h2>
+        <label for="employee-name">Enter Employee Name:</label>
+        <input type="text" id="employee-name" placeholder="Enter Name" />
+        <label for="employee-id">Enter Employee ID:</label>
+        <input type="number" id="employee-id" placeholder="Enter ID" />
+        <label for="employee-salary">Enter Employee Salary:</label>
+        <input type="number" id="employee-salary" placeholder="Enter Salary" />
+        <button onclick="applyRaise()">Apply 15% Raise</button>
+        <p id="raiseResult"></p>
+      </section>
+
+      <section>
+        <h2>3. Subclassing with Setters and Getters: Salesman and Manager</h2>
+        <button onclick="displaySubClassEmployeeData()">
+          Display Subclass Employee Data
+        </button>
+        <p id="subclassEmployeeData"></p>
+      </section>
+    </div>
+
+    <script>
+      function Employee(name, id) {
+        this.name = name;
+        this.id = id;
+      }
+
+      Employee.prototype.display = function () {
+        return `Employee Name: ${this.name}, Employee ID: ${this.id}`;
+      };
+
+      function Salesman(name, id, region) {
+        Employee.call(this, name, id);
+        this.region = region;
+      }
+      Salesman.prototype = Object.create(Employee.prototype);
+
+      function Manager(name, id, department) {
+        Employee.call(this, name, id);
+        this.department = department;
+      }
+      Manager.prototype = Object.create(Employee.prototype);
+
+      Salesman.prototype.display = function () {
+        return `${Employee.prototype.display.call(this)}, Region: ${
+          this.region
+        }`;
+      };
+
+      Manager.prototype.display = function () {
+        return `${Employee.prototype.display.call(this)}, Department: ${
+          this.department
+        }`;
+      };
+
+      function displayEmployeeData() {
+        let salesman = new Salesman("John Doe", 123, "East");
+        let manager = new Manager("Jane Smith", 456, "HR");
+
+        document.getElementById(
+          "employeeData"
+        ).innerText = `${salesman.display()} \n${manager.display()}`;
+      }
+
+      Employee.prototype.salary = 0;
+
+      Employee.prototype.setRaise = function () {
+        this.salary += this.salary * 0.15;
+      };
+
+      function applyRaise() {
+        let name = document.getElementById("employee-name").value;
+        let id = parseInt(document.getElementById("employee-id").value);
+        let salary = parseFloat(
+          document.getElementById("employee-salary").value
+        );
+
+        let employee = new Employee(name, id);
+        employee.salary = salary;
+        employee.setRaise();
+
+        document.getElementById("raiseResult").innerText = `Employee: ${
+          employee.name
+        }, ID: ${employee.id}, New Salary: $${employee.salary.toFixed(2)}`;
+      }
+
+      function SubClassEmployee(name, id, position) {
+        Employee.call(this, name, id);
+        this.position = position;
+      }
+      SubClassEmployee.prototype = Object.create(Employee.prototype);
+
+      Object.defineProperty(SubClassEmployee.prototype, "employeeData", {
+        get: function () {
+          return `Name: ${this.name}, ID: ${this.id}, Position: ${this.position}`;
+        },
+        set: function (newData) {
+          const [newName, newId, newPosition] = newData.split(", ");
+          this.name = newName;
+          this.id = newId;
+          this.position = newPosition;
+        },
+      });
+
+      function displaySubClassEmployeeData() {
+        let subclassEmployee = new SubClassEmployee(
+          "Mark Taylor",
+          789,
+          "Salesman"
+        );
+
+        subclassEmployee.employeeData = "Alice White, 321, Manager";
+
+        document.getElementById("subclassEmployeeData").innerText =
+          subclassEmployee.employeeData;
+      }
+    </script>
+  </body>
+</html>

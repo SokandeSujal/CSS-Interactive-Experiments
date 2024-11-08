@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 7 - Form Validation</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .invalid {
+        border: 2px solid red;
+        background-color: #f8d7da;
+      }
+      input {
+        padding: 8px;
+        font-size: 16px;
+        margin: 5px 0;
+      }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      window.onload = function () {
+        // 1. Validate if string contains digits
+        document
+          .getElementById("digit-check")
+          .addEventListener("input", validateDigits);
+
+        // 2. Replace 'country' with 'India'
+        document
+          .getElementById("replace-word")
+          .addEventListener("input", replaceWord);
+
+        // 3. Validate USN format
+        document.getElementById("usn").addEventListener("blur", validateUSN);
+      };
+
+      // 1. Function to check if string contains digits
+      function validateDigits() {
+        const input = document.getElementById("digit-check");
+        const result = document.getElementById("digit-result");
+        const containsDigits = /\d/.test(input.value);
+
+        // Displaying whether the string contains digits
+        result.textContent = containsDigits ? "Yes" : "No";
+
+        if (containsDigits) {
+          input.classList.remove("invalid");
+        } else {
+          input.classList.add("invalid");
+        }
+      }
+
+      // 2. Function to replace 'country' with 'India'
+      function replaceWord() {
+        const input = document.getElementById("replace-word");
+        const modifiedSentence = input.value.replace(/country/gi, "India");
+        input.value = modifiedSentence;
+
+        // Show the modified sentence
+        const replaceResult = document.getElementById("replace-result");
+        replaceResult.textContent = modifiedSentence;
+      }
+
+      // 3. Function to validate USN format
+      function validateUSN() {
+        const input = document.getElementById("usn");
+        const usnRegex = /^[1-4][A-Z]{2}\d{2}[A-Z]{2}\d{3}$/;
+
+        if (usnRegex.test(input.value)) {
+          input.classList.remove("invalid");
+        } else {
+          input.classList.add("invalid");
+          alert(
+            "Invalid USN format. Please enter a valid USN in the format: 1AB23CD456"
+          );
+          input.focus();
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Experiment 7 - Form Validation</h1>
+
+      <section>
+        <h2>Validate Digits</h2>
+        <label for="digit-check">Enter a string:</label>
+        <input type="text" id="digit-check" />
+        <p>
+          The string you entered contains digits:
+          <span id="digit-result">No</span>
+        </p>
+      </section>
+
+      <section>
+        <h2>Replace 'country' with 'India'</h2>
+        <label for="replace-word">Enter a sentence:</label>
+        <input type="text" id="replace-word" />
+        <p>The modified sentence is: <span id="replace-result"></span></p>
+      </section>
+
+      <section>
+        <h2>Validate USN</h2>
+        <label for="usn">Enter a USN:</label>
+        <input type="text" id="usn" placeholder="Example: 1AB23CD456" />
+      </section>
+    </div>
+  </body>
+</html>

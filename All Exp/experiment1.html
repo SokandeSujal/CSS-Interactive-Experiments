@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 1</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 style="text-align: center">Experiment 1</h1>
+
+    <section>
+      <h1>Arithmetic Operations</h1>
+      <label for="num1">Enter first number:</label>
+      <input type="number" id="num1" />
+      <label for="num2">Enter second number:</label>
+      <input type="number" id="num2" />
+      <button onclick="performArithmeticOperations()">Calculate</button>
+      <p id="arithmetic-result"></p>
+
+      <script>
+        function performArithmeticOperations() {
+          var a = parseFloat(document.getElementById("num1").value);
+          var b = parseFloat(document.getElementById("num2").value);
+
+          var addition = a + b;
+          var subtraction = a - b;
+          var multiplication = a * b;
+          var division = a / b;
+          var modulus = a % b;
+
+          document.getElementById("arithmetic-result").innerHTML =
+            "<p>Addition (a + b) : " +
+            addition +
+            "</p>" +
+            "<p>Subtraction (a - b) : " +
+            subtraction +
+            "</p>" +
+            "<p>Multiplication (a * b) : " +
+            multiplication +
+            "</p>" +
+            "<p>Division (a / b) : " +
+            division +
+            "</p>" +
+            "<p>Modulus (a % b) : " +
+            modulus +
+            "</p>";
+        }
+      </script>
+    </section>
+
+    <section>
+      <h1>Addition of Two Numbers</h1>
+      <label for="add-num1">Enter first number:</label>
+      <input type="number" id="add-num1" />
+      <label for="add-num2">Enter second number:</label>
+      <input type="number" id="add-num2" />
+      <button onclick="performAddition()">Add</button>
+      <p id="addition-result"></p>
+
+      <script>
+        function performAddition() {
+          var num1 = parseFloat(document.getElementById("add-num1").value);
+          var num2 = parseFloat(document.getElementById("add-num2").value);
+          var sum = num1 + num2;
+          document.getElementById("addition-result").innerText = "Sum: " + sum;
+        }
+      </script>
+    </section>
+
+    <section>
+      <h1>Fahrenheit to Celsius Conversion</h1>
+      <label for="temp-f">Enter Temperature in Fahrenheit:</label>
+      <input type="number" id="temp-f" />
+      <button onclick="convertFahrenheitToCelsius()">Convert</button>
+      <p id="temperature-result"></p>
+
+      <script>
+        function convertFahrenheitToCelsius() {
+          var F = parseFloat(document.getElementById("temp-f").value);
+          var C = (F - 32) / 1.8;
+          document.getElementById("temperature-result").innerText =
+            "Temperature in Celsius: " + C.toFixed(2);
+        }
+      </script>
+    </section>
+  </body>
+</html>

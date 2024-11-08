@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 4</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Experiment 4</h1>
+      <section class="task-section">
+        <h2>1. Calculate Circumference of a Circle</h2>
+        <label for="radius">Enter Radius:</label>
+        <input type="number" id="radius" placeholder="Enter radius" />
+        <button onclick="calculateCircumference()">
+          Calculate Circumference
+        </button>
+        <p id="circumferenceResult"></p>
+      </section>
+
+      <section class="task-section">
+        <h2>2. Create and Display Clock Object</h2>
+        <button onclick="createClock()">Create Clock</button><br /><br />
+        <label for="timeFormat">Choose Time Format:</label>
+        <select id="timeFormat">
+          <option value="12">12-Hour (a.m./p.m.)</option>
+          <option value="24">24-Hour (Military Time)</option>
+        </select>
+        <button onclick="displayTime()">Display Time</button>
+        <p id="clockResult"></p>
+      </section>
+
+      <section class="task-section">
+        <h2>3. Calculate Age Based on Birthdate</h2>
+        <br />
+        <label for="birthdate">Enter Birthdate:</label>
+        <input type="date" id="birthdate" />
+        <button onclick="calculateAge()">Calculate Age</button>
+        <p id="ageResult"></p>
+      </section>
+    </div>
+
+    <script>
+      function Circle(radius) {
+        this.radius = radius;
+        this.circumference = function () {
+          return 2 * Math.PI * this.radius;
+        };
+      }
+
+      function calculateCircumference() {
+        const radius = parseFloat(document.getElementById("radius").value);
+        const circle = new Circle(radius);
+        document.getElementById("circumferenceResult").innerText =
+          "Circumference: " + circle.circumference().toFixed(2);
+      }
+
+      function Clock() {
+        this.seconds = 0;
+        this.minutes = 0;
+        this.hours = 0;
+
+        this.setTime = function (hours, minutes, seconds) {
+          this.hours = hours;
+          this.minutes = minutes;
+          this.seconds = seconds;
+        };
+
+        this.displayTime = function (format) {
+          let hours = this.hours;
+          let minutes = this.minutes < 10 ? "0" + this.minutes : this.minutes;
+          let seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
+          let timeString = "";
+
+          if (format === "12") {
+            let period = hours >= 12 ? "p.m." : "a.m.";
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            timeString = hours + ":" + minutes + ":" + seconds + " " + period;
+          } else {
+            timeString = hours + ":" + minutes + ":" + seconds;
+          }
+          return timeString;
+        };
+      }
+
+      let clock;
+
+      function createClock() {
+        clock = new Clock();
+        const now = new Date();
+        clock.setTime(now.getHours(), now.getMinutes(), now.getSeconds());
+        alert("Clock created with current time.");
+      }
+
+      function displayTime() {
+        if (!clock) {
+          alert("Please create a clock first.");
+          return;
+        }
+        const format = document.getElementById("timeFormat").value;
+        document.getElementById("clockResult").innerText =
+          "Current Time: " + clock.displayTime(format);
+      }
+
+      function calculateAge() {
+        const birthdate = new Date(document.getElementById("birthdate").value);
+        const today = new Date();
+        let age = today.getFullYear() - birthdate.getFullYear();
+        const m = today.getMonth() - birthdate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+          age--;
+        }
+        document.getElementById("ageResult").innerText =
+          "Age: " + age + " years";
+      }
+    </script>
+  </body>
+</html>
